@@ -19,13 +19,14 @@
 
     <fragment
         android:id="@+id/Statistics"
-        android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.example.myapplication.ui.statistics.AddLearnerFragment"
+        android:label="@string/test"
+        tools:layout="@layout/fragment_add_learner" />
 
     <fragment
             android:id="@+id/Account"
             android:name="com.example.myapplication.ui.login.LoginFragment"
             android:label="@string/title_account"
             tools:layout="@layout/fragment_login"/>
+
 </navigation>

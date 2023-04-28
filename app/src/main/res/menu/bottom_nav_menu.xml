@@ -15,7 +15,7 @@
             android:id="@+id/Statistics"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="@string/title_statistics"/>
-    <item android:title="@string/title_account" android:icon="@android:drawable/ic_menu_myplaces"
+    <item android:title="@string/title_account" android:icon="@drawable/baseline_manage_accounts_24"
           android:id="@+id/Account"/>
 
 </menu>
