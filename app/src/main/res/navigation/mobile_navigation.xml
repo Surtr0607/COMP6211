@@ -17,11 +17,6 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
-    <fragment
-        android:id="@+id/Statistics"
-        android:name="com.example.myapplication.ui.statistics.AddLearnerFragment"
-        android:label="@string/test"
-        tools:layout="@layout/fragment_add_learner" />
 
     <fragment
             android:id="@+id/Account"

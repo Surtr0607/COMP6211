@@ -14,10 +14,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [CheckGradeForStudent1.newInstance] factory method to
+ * Use the [CheckGradeForStudentFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CheckGradeForStudent1 : Fragment() {
+class CheckGradeForStudentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,7 +35,7 @@ class CheckGradeForStudent1 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_check_grade_for_student1, container, false)
+        return inflater.inflate(R.layout.fragment_check_grade_for_student, container, false)
     }
 
     companion object {
@@ -50,7 +50,7 @@ class CheckGradeForStudent1 : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CheckGradeForStudent1().apply {
+            CheckGradeForStudentFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

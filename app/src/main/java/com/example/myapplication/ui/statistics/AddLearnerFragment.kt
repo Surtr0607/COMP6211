@@ -14,6 +14,7 @@ import com.example.myapplication.databinding.FragmentAddLearnerBinding
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.databinding.FragmentNotificationsBinding
 import com.example.myapplication.ui.notifications.NotificationsViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AddLearnerFragment : Fragment() {
     private var _binding: FragmentAddLearnerBinding? = null
@@ -31,11 +32,15 @@ class AddLearnerFragment : Fragment() {
         _binding = FragmentAddLearnerBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
+        // binding the listview to adapter and show the content of list value
         val listOfMessage = root.findViewById<ListView>(R.id.studentList)
-        val values = arrayOf("QY Zhang", "iphone", "Windows")
+        val values = arrayOf("QY Zhang", "iphone", "Windows","li zhou")
         val adapter: ArrayAdapter<String> = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, values)
         listOfMessage.adapter = adapter
+
+
+
+        // return the view
         return root
     }
 

@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/addLearner"
         tools:context=".ui.dashboard.DashboardFragment" android:orientation="vertical">
     <TextView
             android:text="@string/add_learner"
