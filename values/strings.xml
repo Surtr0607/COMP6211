@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AndroidAppCoursework</string>
+    <string name="email">Email</string>
+    <string name="account">Account</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="Password">Password</string>
+    <string name="Enter_your_password">Enter_your_password</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
+    <string name="create_a_new_account">Create a New Account</string>
+    <string name="educator">Educator</string>
+    <string name="Learner">Learner</string>
+    <string name="confirm">Confirm</string>
+    <string name="Welcome">Welcome!</string>
+    <string name="account_type">Account Type:</string>
+    <string name="sign_out">Sign Out</string>
+</resources>
