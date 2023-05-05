@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369106498933",
+    "project_id": "test-ebcaf",
+    "storage_bucket": "test-ebcaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369106498933:android:d217832d398596c4064f3c",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369106498933-t0idju2bc17776ihsv4895ubf9kq774e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEitOZ5rSJjEftzIWBPO-h7ODDMFl8J5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369106498933-t0idju2bc17776ihsv4895ubf9kq774e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
