@@ -17,7 +17,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddLearnerBinding
-import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.databinding.FragmentNotificationsBinding
 import com.example.myapplication.ui.notifications.NotificationsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView

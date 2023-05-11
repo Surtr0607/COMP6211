@@ -113,4 +113,5 @@
     <string name="create_course">Creat a new course</string>
     <string name="confirm">Confirm</string>
     <string name="create_exam">Create a new exam</string>
+    <string name="title_Allcourses">All courses</string>
 </resources>

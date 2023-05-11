@@ -1,14 +1,11 @@
 package com.example.myapplication.data.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface UserDao{
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(user: User)
 
     @Update

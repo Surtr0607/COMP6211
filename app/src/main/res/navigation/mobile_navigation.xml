@@ -2,32 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@id/Dashboard">
+    android:id="@+id/mobile_navigation">
 
-    <fragment
-        android:id="@+id/Dashboard"
-        android:name="com.example.myapplication.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-
-    <fragment
-        android:id="@+id/MyCourse"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-
-    <fragment
-            android:id="@+id/Account"
-            android:name="com.example.myapplication.ui.login.LoginFragment"
-            android:label="@string/title_account"
-            tools:layout="@layout/fragment_login"/>
-    <fragment android:id="@+id/addLearnerFragment"
-              android:name="com.example.myapplication.ui.statistics.AddLearnerFragment"
-              android:label="AddLearnerFragment"/>
-    <action android:id="@+id/action_global_addLearnerFragment" app:destination="@id/addLearnerFragment"/>
 
 
 </navigation>
