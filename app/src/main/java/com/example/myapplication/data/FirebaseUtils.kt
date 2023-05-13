@@ -16,8 +16,18 @@ class FirebaseUtils{
     }
 
     //Search for a specified entity under field value
-    fun searchByField(collectionName: String, field: String, value: Any): Task<QuerySnapshot> {
-        return fireStoreDatabase.collection(collectionName).whereEqualTo(field, value).get()
+    fun searchByField(collectionName: String, field: String, value: Any): QuerySnapshot? {
+        fireStoreDatabase.collection(collectionName).whereEqualTo(field, value)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents){
+                    Log.d("Search Result", "id: ${document.id} field: ${field}, value: ${document.data.get(field)}")
+                }
+            }
+            .addOnFailureListener{
+                Log.w(TAG, "Error adding document $it")
+            }
+        return fireStoreDatabase.collection(collectionName).whereEqualTo(field, value).get().getResult()
     }
 
     //Add a entity into the database collection
@@ -26,7 +36,6 @@ class FirebaseUtils{
             .add(hashMap)
             .addOnSuccessListener { it ->
                 Log.d(TAG, "Added document with ID ${it.id}")
-
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error adding document $exception")

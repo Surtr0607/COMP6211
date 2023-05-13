@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.login
 
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
@@ -15,14 +16,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.myapplication.LearnerActivity
 import com.example.myapplication.databinding.FragmentLoginBinding
 
 import com.example.myapplication.R
+import com.example.myapplication.ui.course.AllCourse
+import com.example.myapplication.ui.course.MyCourse
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
+    private lateinit var  auth: FirebaseAuth
+    private var state = 1
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,7 +41,8 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,6 +58,8 @@ class LoginFragment : Fragment() {
         val passwordEditText = binding.description
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
+
+
 
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
@@ -113,8 +125,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome) + model.displayName
+//        val welcome = getString(R.string.welcome) + model.displayName
+        val welcome = getString(R.string.welcome) + binding.coursename.text.toString()
         // TODO : initiate successful logged in experience
+
+        val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
+        requireActivity().startActivityFromFragment(this, intent, 1)
+
+
+
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
@@ -128,4 +147,5 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

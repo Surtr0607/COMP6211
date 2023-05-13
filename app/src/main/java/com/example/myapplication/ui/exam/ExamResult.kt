@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.myapplication.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,14 +29,28 @@ class ExamResult : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        val btn3 = requireActivity().findViewById<Button>(R.id.button3)
+        btn3.setOnClickListener{
+
+        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exam_result, container, false)
+        val root = inflater.inflate(R.layout.fragment_exam_result, container, false)
+        val btn3 = root.findViewById<Button>(R.id.button3)
+        btn3.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, ExamReview())
+                .addToBackStack(null)
+                .commit()
+        }
+        return root
     }
 
     companion object {

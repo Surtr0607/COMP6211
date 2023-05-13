@@ -1,27 +1,25 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.room.Query
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.myapplication.data.FirebaseUtils
-import com.example.myapplication.data.database.User
-import com.example.myapplication.data.database.UserDatabase
+import com.example.myapplication.databinding.ActivityLearnerBinding
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.example.myapplication.ui.login.LoginFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.dataObjects
-import kotlinx.coroutines.tasks.await
 
-
-class MainActivity : AppCompatActivity() {
+class LearnerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val TAG = "FIRESTORE"
@@ -62,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.Account -> {
-                    replaceFragment(LoginFragment())
+                    replaceFragment(AllCourse())
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -80,51 +78,4 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
-
-    //Test function and format of data in Firestore
-//    private fun uploadData() {
-//        // create a dummy data in users collection
-//        val hashMap = hashMapOf<String, Any>(
-//            "email" to "qz12u22@soton.ac.uk",
-//            "firstname" to "James",
-//            "lastname" to "Harden",
-//            "identity" to "student"
-//        )
-//
-//        // create a dummy data in course collection
-//        val hashMap2 = hashMapOf<String, Any>(
-//            "courseName" to "English",
-//            "description" to "lazy"
-//        )
-//
-//        // create a dummy data in activity collection
-//        val hashMap3 = hashMapOf<String, Any>(
-//            "courseName" to "English",
-//            "description" to "lazy"
-//        )
-//
-//        // use the add() method to create a document inside users collection
-//        FirebaseUtils().fireStoreDatabase.collection("users")
-//            .add(hashMap)
-//            .addOnSuccessListener { it ->
-//                Log.d(TAG, "Added document with ID ${it.id}")
-//
-//
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error adding document $exception")
-//            }
-//
-//
-//        FirebaseUtils().fireStoreDatabase.collection("users")
-//            .get()
-//            .addOnSuccessListener {documents -> for (document in documents){
-//                Log.d(TAG, "${document.data.get("firstname")}")
-//            }
-//
-//
-//            }
-//            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
-//    }
-
 }
