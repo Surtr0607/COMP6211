@@ -11,4 +11,3 @@ data class User(
     @ColumnInfo val firstname: String,
     @ColumnInfo  val lastname: String
 )
-
