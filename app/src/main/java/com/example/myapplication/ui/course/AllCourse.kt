@@ -36,10 +36,14 @@ class AllCourse : Fragment() {
     private var param2: String? = null
 
 
-    private lateinit var checkBoxLayout: LinearLayout
-    private lateinit var addButton: Button
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private lateinit var courses: List<Course>
 
-
+    data class Course(
+        val courseID: String = "",
+        val courseName: String = ""
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -75,58 +79,57 @@ class AllCourse : Fragment() {
                 // 如果读取过程中发生错误，则在控制台中打印错误消息
                 Log.e(TAG, "Error getting documents.", exception)
             }
-
-
-
-
-
 */
 
         val view = inflater.inflate(R.layout.fragment_all_course, container, false)
 
-        checkBoxLayout = view.findViewById(R.id.check_box_layout)
-        addButton = view.findViewById(R.id.AllCoursesButton)
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
-        // 查询 course 集合中的所有文档，创建多个 CheckBox 并添加到 LinearLayout 中
-        val db = FirebaseFirestore.getInstance()
-        val courseRef = db.collection("course")
+        val checkboxGroup = view.findViewById<LinearLayout>(R.id.check_box_layout)
+        val addButton = view.findViewById<Button>(R.id.AllCoursesButton)
 
-        courseRef.get().addOnSuccessListener { result ->
-            for (document in result) {
-                val courseName = document.getString("courseName")
-                val courseID = document.getString("courseID")
-                val checkBox = CheckBox(requireContext())
-                checkBox.text = courseName
-                checkBox.tag = courseID
-                checkBoxLayout.addView(checkBox)
+        // 获取所有课程数据
+        firestore.collection("course")
+            .get()
+            .addOnSuccessListener { result ->
+                courses = result.toObjects(Course::class.java)
+
+                // 创建复选框并显示课程名称
+                for (course in courses) {
+                    val checkbox = CheckBox(context)
+                    checkbox.text = course.courseName
+                    checkboxGroup.addView(checkbox)
+                }
             }
-        }.addOnFailureListener { exception ->
-            Log.d(TAG, "Error getting documents: ", exception)
-        }
+            .addOnFailureListener { exception ->
+                Toast.makeText(context, "获取课程数据失败", Toast.LENGTH_SHORT).show()
+            }
 
-        // 添加点击事件到按钮
         addButton.setOnClickListener {
-            // 获取选中的 CheckBox 的 courseID
-            val selectedCourseIDs = mutableListOf<String>()
-            for (i in 0 until checkBoxLayout.childCount) {
-                val child = checkBoxLayout.getChildAt(i)
-                if (child is CheckBox && child.isChecked) {
-                    val courseID = child.tag as? String
-                    courseID?.let { selectedCourseIDs.add(it) }
+            val selectedCourses = mutableListOf<String>()
+
+            // 获取选中的课程ID
+            for (i in 0 until checkboxGroup.childCount) {
+                val checkbox = checkboxGroup.getChildAt(i) as CheckBox
+                if (checkbox.isChecked) {
+                    selectedCourses.add(courses[i].courseID)
                 }
             }
-            // 更新当前登录用户的数据到 Firestore 中
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            currentUser?.uid?.let { uid ->
-                val userRef = db.collection("users").document(uid)
-                userRef.get().addOnSuccessListener { documentSnapshot ->
-                    val userData = documentSnapshot.toObject(UserData::class.java)
-                    userData?.let {
-                        val courses = it.course.toMutableList()
-                        courses.addAll(selectedCourseIDs)
-                        userRef.update("course", courses)
+
+            // 添加课程ID到当前用户的course字段
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                val userRef = firestore.collection("users").document(currentUser.uid)
+                userRef.update("course", selectedCourses)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "成功添加课程", Toast.LENGTH_SHORT).show()
                     }
-                }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(context, "添加课程失败", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show()
             }
         }
 
