@@ -103,7 +103,7 @@ class AllCourse : Fragment() {
                 }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(context, "获取课程数据失败", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Failed to obtain course data", Toast.LENGTH_SHORT).show()
             }
 
         addButton.setOnClickListener {
@@ -123,13 +123,13 @@ class AllCourse : Fragment() {
                 val userRef = firestore.collection("users").document(currentUser.uid)
                 userRef.update("course", selectedCourses)
                     .addOnSuccessListener {
-                        Toast.makeText(context, "成功添加课程", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Successfully added courses", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener { exception ->
-                        Toast.makeText(context, "添加课程失败", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
             }
         }
 
