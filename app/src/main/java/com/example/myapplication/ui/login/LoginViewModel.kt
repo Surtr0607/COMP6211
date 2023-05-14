@@ -49,7 +49,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "createUserWithEmail:success")
                                 val user = auth.currentUser
-
+                                
                                 //add user into the firestore
 
                                 // create a dummy data in activity collection
