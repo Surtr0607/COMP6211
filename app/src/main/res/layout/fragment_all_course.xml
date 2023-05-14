@@ -6,23 +6,44 @@
     android:orientation="vertical"
     tools:context=".ui.course.AllCourse">
 
-    <TextView
-        android:text="All Courses"
+    <LinearLayout
+        android:id="@+id/all_course_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:id="@+id/textView" android:textAlignment="center"
-        android:textSize="24sp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/checkBox3"
-        android:layout_width="match_parent"
-        android:layout_height="630dp"
-        android:layout_weight="1"
-        android:text="CheckBox" />
 
-    <Button
-        android:id="@+id/button4"
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="All Courses"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:id="@+id/check_box_layout"
+            android:layout_width="match_parent"
+            android:layout_height="587dp"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/AllCoursesButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Submit" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Submit" />
+        android:layout_height="48dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
 </LinearLayout>
