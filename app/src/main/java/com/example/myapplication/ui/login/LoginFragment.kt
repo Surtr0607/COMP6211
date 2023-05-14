@@ -15,8 +15,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.myapplication.LearnerActivity
+import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.FragmentLoginBinding
 
 import com.example.myapplication.R
@@ -56,8 +59,10 @@ class LoginFragment : Fragment() {
 
         val usernameEditText = binding.coursename
         val passwordEditText = binding.description
+        val roleEditText = binding.role.checkedRadioButtonId
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
+        val selectedRadioButtonId = binding.role.checkedRadioButtonId
 
 
 
@@ -109,7 +114,8 @@ class LoginFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(
                     usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    passwordEditText.text.toString(),
+                    roleEditText.toString()
                 )
             }
             false
@@ -119,24 +125,30 @@ class LoginFragment : Fragment() {
             loadingProgressBar.visibility = View.VISIBLE
             loginViewModel.login(
                 usernameEditText.text.toString(),
-                passwordEditText.text.toString()
+                passwordEditText.text.toString(),
+                roleEditText.toString()
             )
         }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-//        val welcome = getString(R.string.welcome) + model.displayName
+
+        //        val welcome = getString(R.string.welcome) + model.displayName
         val welcome = getString(R.string.welcome) + binding.coursename.text.toString()
-        // TODO : initiate successful logged in experience
+       // TODO : initiate successful logged in experience
 
         val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
         requireActivity().startActivityFromFragment(this, intent, 1)
 
 
-
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+
+
     }
+
+
+
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
