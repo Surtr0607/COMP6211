@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myapplication.data.FirebaseUtils
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.ui.course.AddLearner
 import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.CreateNewCourse
 import com.example.myapplication.ui.course.MyCourse
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Allcourses -> {
-                    replaceFragment(CreateNewCourse())
+                    replaceFragment(AddLearner())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.MyCourse -> {

@@ -38,10 +38,10 @@ class AddLearnerFragment : Fragment() {
         val root: View = binding.root
 
         // binding the listview to adapter and show the content of list value
-        val listOfMessage = root.findViewById<ListView>(R.id.studentList)
+       // val listOfMessage = root.findViewById<ListView>(R.id.studentList)
         val values = arrayOf("QY Zhang", "iphone", "Windows","li zhou")
         val listAdapter: ArrayAdapter<String> = ArrayAdapter(root.context, android.R.layout.simple_list_item_1, values)
-        listOfMessage.adapter = listAdapter
+        //listOfMessage.adapter = listAdapter
 
 
 

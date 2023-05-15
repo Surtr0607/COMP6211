@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/addLearner"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addLearner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
-            android:text="@string/add_learner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textView" android:textAlignment="center"
-            android:textSize="24sp"/>
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_learner"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
     <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/search_Learner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ListView
-            android:layout_width="match_parent"
-            android:layout_height="597dp" android:id="@+id/studentList"/>
+        android:id="@+id/student_List"
+        android:layout_width="match_parent"
+        android:layout_height="507dp" />
 
-
-
+    <Button
+        android:id="@+id/add_learner_button"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:text="Comfirm" />
 
 
 </LinearLayout>
