@@ -1,28 +1,21 @@
 package com.example.myapplication
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.myapplication.data.FirebaseUtils
-import com.example.myapplication.databinding.ActivityLearnerBinding
+import com.example.myapplication.databinding.ActivityEducatorBinding
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.example.myapplication.ui.login.DashboardFragment
-import com.example.myapplication.ui.login.LoginFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class LearnerActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityLearnerBinding
+class EducatorActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEducatorBinding
     private val TAG = "FIRESTORE"
     private val db = FirebaseUtils().fireStoreDatabase
 
@@ -31,8 +24,7 @@ class LearnerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-
-        binding = ActivityLearnerBinding.inflate(layoutInflater)
+        binding = ActivityEducatorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 

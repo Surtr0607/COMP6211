@@ -18,6 +18,7 @@ import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import com.example.myapplication.EducatorActivity
 import com.example.myapplication.LearnerActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.FragmentLoginBinding
@@ -137,8 +138,18 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + binding.coursename.text.toString()
        // TODO : initiate successful logged in experience
 
-        val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
-        requireActivity().startActivityFromFragment(this, intent, 1)
+        when (binding.role.checkedRadioButtonId){
+            2131231340 -> {
+                val intent = Intent(this.requireActivity(), EducatorActivity::class.java)
+                requireActivity().startActivityFromFragment(this, intent, 1)
+            }
+            2131231343 -> {
+                val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
+                requireActivity().startActivityFromFragment(this, intent, 1)
+            }
+
+        }
+
 
 
         val appContext = context?.applicationContext ?: return
