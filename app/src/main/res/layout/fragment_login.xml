@@ -92,14 +92,16 @@
             android:layout_width="120sp"
             android:layout_height="70sp"
             android:text="Educator"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            />
 
         <RadioButton
             android:id="@+id/student"
             android:layout_width="120sp"
             android:layout_height="70sp"
             android:text="Student"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            />
 
     </RadioGroup>
 

@@ -59,10 +59,10 @@ class LoginFragment : Fragment() {
 
         val usernameEditText = binding.coursename
         val passwordEditText = binding.description
-        val roleEditText = binding.role.checkedRadioButtonId
+        val roleEditText = binding.role
+
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
-        val selectedRadioButtonId = binding.role.checkedRadioButtonId
 
 
 
@@ -115,7 +115,7 @@ class LoginFragment : Fragment() {
                 loginViewModel.login(
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString(),
-                    roleEditText.toString()
+                    roleEditText.checkedRadioButtonId.toString()
                 )
             }
             false
@@ -126,7 +126,7 @@ class LoginFragment : Fragment() {
             loginViewModel.login(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString(),
-                roleEditText.toString()
+                roleEditText.checkedRadioButtonId.toString()
             )
         }
     }
@@ -158,6 +158,25 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun onRadioButtonClicked(view: View){
+        if (view is RadioButton) {
+            // Is the button now checked?
+            val checked = view.isChecked
+
+            // Check which radio button was clicked
+            when (view.getId()) {
+                R.id.educator ->
+                    if (checked) {
+                        return // Pirates are the best
+                    }
+                R.id.student ->
+                    if (checked) {
+                        return // Ninjas rule
+                    }
+            }
+        }
     }
 
 }
