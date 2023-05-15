@@ -15,10 +15,14 @@ import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.example.myapplication.ui.login.LoginFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
+import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.dataObjects
 import kotlinx.coroutines.tasks.await
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Allcourses -> {
-                    replaceFragment(AllCourse())
+                    replaceFragment(CreateNewCourse())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.MyCourse -> {
@@ -80,6 +84,9 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container, fragment)
         transaction.commit()
     }
+
+
+
 
     //Test function and format of data in Firestore
 //    private fun uploadData() {
