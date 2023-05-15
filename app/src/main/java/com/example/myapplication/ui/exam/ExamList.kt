@@ -41,6 +41,10 @@ class ExamList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        // 获取传递过来的数据
+        arguments?.let {
+            courseId = it.getString("courseId")!!
+        }
         // 获取列表视图
         val listView = view?.findViewById<ListView>(R.id.ExamListListView)
 
