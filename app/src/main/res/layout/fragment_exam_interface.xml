@@ -14,16 +14,40 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/ExamInterfaceText"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:text="TextView"
         android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="554dp"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/ExamInterfaceCheckBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckBox" />
+
+        <CheckBox
+            android:id="@+id/ExamInterfaceCheckBox2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckBox" />
+
+        <CheckBox
+            android:id="@+id/ExamInterfaceCheckBox3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckBox" />
+
+        <CheckBox
+            android:id="@+id/ExamInterfaceCheckBox4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckBox" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

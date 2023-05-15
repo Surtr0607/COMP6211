@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
 import com.example.myapplication.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,15 +26,18 @@ class ExamResult : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var questionId: String
+    private lateinit var questionText: String
+    private lateinit var userAnswers: BooleanArray
+    private lateinit var isCorrectList: BooleanArray
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-        val btn3 = requireActivity().findViewById<Button>(R.id.button3)
-        btn3.setOnClickListener{
-
+            questionId = it.getString("questionId", "")
+            questionText = it.getString("questionText", "")
+            userAnswers = it.getBooleanArray("userAnswers") ?: BooleanArray(0)
+            isCorrectList = it.getBooleanArray("isCorrectList") ?: BooleanArray(0)
         }
 
     }
@@ -42,17 +48,42 @@ class ExamResult : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_exam_result, container, false)
-        val btn3 = root.findViewById<Button>(R.id.button3)
-        btn3.setOnClickListener {
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, ExamReview())
-                .addToBackStack(null)
-                .commit()
-        }
-        return root
+        return inflater.inflate(R.layout.fragment_exam_result, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set question text and result summary
+        // questionTextView = view.findViewById<TextView>(R.id.ExamResultText)
+        //questionTextView.text = questionText
+        val resultTextView = view.findViewById<TextView>(R.id.ExamResultText)
+        val numQuestions = userAnswers.size
+        val numCorrect = isCorrectList.count { it }
+        resultTextView.text = "You answered $numCorrect out of $numQuestions questions correctly."
+
+        // Set up the ListView adapter
+        val listView = view.findViewById<ListView>(R.id.ExamResultList)
+        val resultList = mutableListOf<Pair<String, String>>()
+        for (i in 0 until numQuestions) {
+            val correctOptionString = getOptionString(i, isCorrectList[i])
+            val userOptionString = getOptionString(i, userAnswers[i])
+            val resultString = if (isCorrectList[i]) "Correct" else "Incorrect"
+            resultList.add(Pair("$resultString - Question ${i+1}", "Correct: $correctOptionString, Your answer: $userOptionString"))
+        }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_2, android.R.id.text1, resultList)
+        listView.adapter = adapter
+    }
+
+    private fun getOptionString(questionIndex: Int, optionValue: Boolean): String {
+        val optionLetter = when (questionIndex % 4) {
+            0 -> "A"
+            1 -> "B"
+            2 -> "C"
+            else -> "D"
+        }
+        return if (optionValue) optionLetter else "-"
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
