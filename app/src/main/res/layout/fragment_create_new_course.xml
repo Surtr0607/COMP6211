@@ -48,18 +48,14 @@
         android:layout_weight="1"
         android:text="@string/confirm" />
 
-    <Button
-        android:id="@+id/save_utton"
-        android:layout_width="match_parent"
-        android:layout_height="26dp"
-        android:layout_weight="1"
-        android:text="@string/confirm" />
+
     <Button
         android:id="@+id/sav_button"
         android:layout_width="match_parent"
         android:layout_height="26dp"
         android:layout_weight="1"
-        android:text="@string/confirm" />
+        android:text="@string/confirm"
+        android:visibility="invisible" />
 
 
 

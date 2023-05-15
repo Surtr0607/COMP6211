@@ -1,28 +1,18 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.room.Query
 import com.example.myapplication.data.FirebaseUtils
-import com.example.myapplication.data.database.User
-import com.example.myapplication.data.database.UserDatabase
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.course.AllCourse
+import com.example.myapplication.ui.course.CreateNewCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.example.myapplication.ui.login.LoginFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
-import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.dataObjects
-import kotlinx.coroutines.tasks.await
-
 
 
 class MainActivity : AppCompatActivity() {
