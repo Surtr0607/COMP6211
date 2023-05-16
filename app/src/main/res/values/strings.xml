@@ -126,5 +126,6 @@
     <string name="action_register">Register</string>
     <string name="educator">Educator</string>
     <string name="student">Student</string>
+    <string name="please_login_in_to_see_details_of_own_course">Please Login in to see details of own course</string>
 
 </resources>
