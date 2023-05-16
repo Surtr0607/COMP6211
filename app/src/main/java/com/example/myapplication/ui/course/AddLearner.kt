@@ -46,90 +46,64 @@ class AddLearner : Fragment() {
         val search = root.findViewById<SearchView>(R.id.search_Learner)
         val button = root.findViewById<Button>(R.id.add_learner_button)
 
-        class MultiSelectAdapter(context: Context, items: List<String>) :
-            ArrayAdapter<String>(context, android.R.layout.simple_list_item_multiple_choice, items) {
 
-            private val selectedItems = ArrayList<String>()
+        emails = ArrayList(listOf("email1", "email2", "email")) //
+        fun performSearch(query: String) {
 
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val checkBox = view.findViewById<CheckBox>(android.R.id.checkbox)
+        }
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // 当用户提交搜索时调用
+                performSearch(query)
+                return true
+            }
 
-                // 设置列表项的选中状态
-                checkBox.isChecked = selectedItems.contains(getItem(position))
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
 
-                // 监听复选框的点击事件
-                checkBox.setOnClickListener {
-                    val selectedItem = getItem(position)
-                    if (checkBox.isChecked) {
-                        if (selectedItem != null) {
-                            selectedItems.add(selectedItem)
-                        }
+        FirebaseUtils().fireStoreDatabase.collection("users")
+            .get()
+            .addOnSuccessListener {
+
+                for (person in it){
+                    if(person.data.get("identity")=="student"){
+                        val temp=person.data.get("email")
+                        val tempstring:String=temp.toString()
+                        emails.add(tempstring)
+                    }
+                }
+
+                list.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, emails)
+                list.adapter = adapter
+                val selectedItems = ArrayList<String>()
+
+                list.setOnItemClickListener { parent, view, position, id ->
+                    val selectedItem = list.getItemAtPosition(position) as String
+                    if (list.isItemChecked(position)) {
+                        selectedItems.add(selectedItem)
                     } else {
                         selectedItems.remove(selectedItem)
                     }
                 }
 
-                return view
+                button.setOnClickListener {
+                    FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj").update("student", selectedItems)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
             }
-
-            // 获取选中的项
-            fun getSelectedItems(): List<String> {
-                return selectedItems
-            }
-        }
-        emails = ArrayList(listOf("email1", "email2", "email")) // 使用构造函数初始化列表
-        emails.add("crying")
-
-        FirebaseUtils().fireStoreDatabase.collection("user")
-            .get()
-            .addOnSuccessListener {
-                for (person in it){
-//                if(person.data.get("identity")=="student"){
-////                    val temp=person.data.get("email")
-//                    emails.add("temp as String")
-//                    }
-                    emails.add("temp as String")
-            }
-
-
-
-
-
-
-//                for (person in user){
-//                    if(person.getString("identity")=="student"){
-//                        val aaa=person.getString("email")
-//                        if (aaa != null){
-//                            emails.add(aaa)}
-//                    }
-//                }
-            }
-
             .addOnFailureListener {
                 Log.w(TAG, "Error adding document $it")
             }
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, emails)
-        list.adapter = adapter
-
-//       val adapter = MultiSelectAdapter(requireContext(), emails)
-//       list.adapter = adapter
-        val selectedItems = ArrayList<String>()
-        selectedItems.add("zhongqi")
-        selectedItems.add("Sarah")
-
-        button.setOnClickListener {
-//            selectedItems.clear()
-//            selectedItems.addAll(adapter.getSelectedItems())
-            FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj").update("student", selectedItems)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                }
-        }
 
         return root
     }
