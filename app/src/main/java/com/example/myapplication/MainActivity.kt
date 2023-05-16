@@ -12,6 +12,7 @@ import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.CreateNewCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.example.myapplication.ui.login.LoginFragment
+import com.example.myapplication.ui.login.RemindFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.MyCourse -> {
-                    replaceFragment(MyCourse())
+                    replaceFragment(RemindFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.Account -> {
