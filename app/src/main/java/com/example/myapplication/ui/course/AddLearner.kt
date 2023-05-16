@@ -93,13 +93,12 @@ class AddLearner : Fragment() {
                 }
 
             }
-<<<<<<< HEAD
 
             // 获取选中的项
-            fun getSelectedItems(): List<String> {
-                return selectedItems
-            }
-        }
+//            fun getSelectedItems(): List<String> {
+//                return selectedItems
+//            }
+
         emails = ArrayList(listOf("email1", "email2", "email")) // 使用构造函数初始化列表
         emails.add("crying")
 
@@ -128,13 +127,10 @@ class AddLearner : Fragment() {
 //                }
             }
 
-=======
->>>>>>> d136eaa349ca89d9be4c99b8556b6ec6b681c87b
             .addOnFailureListener {
                 Log.w(TAG, "Error adding document $it")
             }
 
-<<<<<<< HEAD
 
 
 //       val adapter = MultiSelectAdapter(requireContext(), emails)
@@ -154,8 +150,6 @@ class AddLearner : Fragment() {
                     Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
                 }
         }
-=======
->>>>>>> d136eaa349ca89d9be4c99b8556b6ec6b681c87b
 
         return root
     }
