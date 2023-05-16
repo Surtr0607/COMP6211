@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Allcourses -> {
-                    replaceFragment(AddLearner())
+                    replaceFragment(AllCourse())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.MyCourse -> {

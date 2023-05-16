@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -138,20 +139,20 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + binding.coursename.text.toString()
        // TODO : initiate successful logged in experience
 
-        when (binding.role.checkedRadioButtonId){
-            2131231340 -> {
+
+        val radio:RadioButton = binding.root.findViewById(binding.role.checkedRadioButtonId)
+        when (radio.text){
+            "Educator" -> {
                 val intent = Intent(this.requireActivity(), EducatorActivity::class.java)
                 requireActivity().startActivityFromFragment(this, intent, 1)
             }
-            2131231343 -> {
+            "Student"-> {
                 val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
                 requireActivity().startActivityFromFragment(this, intent, 1)
             }
 
         }
-
-
-
+        
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
 

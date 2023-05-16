@@ -91,7 +91,7 @@
             android:id="@+id/educator"
             android:layout_width="120sp"
             android:layout_height="70sp"
-            android:text="Educator"
+            android:text="@string/educator"
             android:textSize="15sp"
             />
 
@@ -99,7 +99,7 @@
             android:id="@+id/student"
             android:layout_width="120sp"
             android:layout_height="70sp"
-            android:text="Student"
+            android:text="@string/student"
             android:textSize="15sp"
             />
 

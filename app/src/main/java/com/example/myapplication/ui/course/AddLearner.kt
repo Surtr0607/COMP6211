@@ -29,13 +29,6 @@ class AddLearner : Fragment() {
 
     private lateinit var emails: ArrayList<String>
     private val TAG = "FIRESTORE"
-//    private lateinit var user: User
-    data class User(
-        val course: List<String>,
-        val email: String,
-        val firstname: String,
-        val identity: String,
-        val lastname: String)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,18 +74,18 @@ class AddLearner : Fragment() {
         emails = ArrayList(listOf("email1", "email2", "email")) // 使用构造函数初始化列表
         emails.add("crying")
 
-        FirebaseUtils().fireStoreDatabase.collection("user")
+        FirebaseUtils().fireStoreDatabase.collection("users")
             .get()
             .addOnSuccessListener {
                 for (person in it){
-//                if(person.data.get("identity")=="student"){
-////                    val temp=person.data.get("email")
-//                    emails.add("temp as String")
-//                    }
-                    emails.add("temp as String")
+                if(person.data.get("identity")=="student"){
+//                  val temp=person.data.get("email")
+                    emails.add(person.data.get("email").toString())
+
+                }
             }
-
-
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, emails)
+            list.adapter = adapter
 
 
 
@@ -110,8 +103,7 @@ class AddLearner : Fragment() {
                 Log.w(TAG, "Error adding document $it")
             }
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, emails)
-        list.adapter = adapter
+
 
 //       val adapter = MultiSelectAdapter(requireContext(), emails)
 //       list.adapter = adapter
