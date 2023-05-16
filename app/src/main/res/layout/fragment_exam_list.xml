@@ -3,24 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.exam.ExamList">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="Activities List"
-        android:textAlignment="center"
-        android:textSize="24sp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/textView" android:textAlignment="center"
+        android:textSize="24sp"/>
 
     <ListView
         android:id="@+id/ExamListListView"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="581dp"
-        android:layout_weight="1">
-
-    </ListView>
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/ExamAddButton"
@@ -30,7 +27,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:orientation="vertical"></LinearLayout>
 
 </LinearLayout>

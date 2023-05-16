@@ -123,6 +123,10 @@ class ExamInterface : Fragment() {
         for (i in userAnswers.indices) {
             isCorrectList.add(correctOptions.contains(i.toLong()) == userAnswers[i])
         }
+
+        //TODO store score
+
+
         val bundle = Bundle().apply {
             putString("questionId", currentQuestionDocument.id)
             putString("questionText", currentQuestionDocument.getString("questionText"))

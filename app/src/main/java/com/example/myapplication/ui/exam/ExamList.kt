@@ -94,6 +94,7 @@ class ExamList : Fragment() {
         return view
 
     }
+
     private fun addExam(){
         val fragment = CreateExam()
         val fragmentManager = requireActivity().supportFragmentManager
