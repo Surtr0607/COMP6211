@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.exam
 
+import android.app.Activity
 import android.os.Bundle
+import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -26,7 +29,7 @@ class ExamList : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var activityList: ArrayList<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,82 +43,55 @@ class ExamList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-// Inflate the layout for this fragment
+        // Inflate the layout for this fragment
+        val activityList = arguments?.getSerializable("activityList") as ArrayList<String>
+
         val view = inflater.inflate(R.layout.fragment_exam_list, container, false)
+        val listView = view.findViewById<ListView>(R.id.ExamListListView)
 
-        // Assuming you have a ListView in your fragment layout with id 'activityListView'
-        val listView: ListView = view.findViewById(R.id.ExamListListView)
+        val db = FirebaseFirestore.getInstance()
 
-        // Retrieve the activityList passed from the previous fragment
-        activityList = arguments?.getStringArrayList("activityList") ?: ArrayList()
-
-        // Create an ArrayAdapter to populate the ListView with activity names
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            ArrayList<String>()
-        )
-
-        // Set the adapter for the ListView
-        listView.adapter = adapter
-
-        // Set item click listener for the ListView
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val activityId = activityList[position]
-            val questionList = getQuestionListFromFirestore(activityId)
-
-            // Navigate to another fragment and pass the questionList
-            val fragment = ExamInterface()
-            val bundle = Bundle()
-            bundle.putStringArray("questionList", questionList.toTypedArray())
-            fragment.arguments = bundle
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment) // Replace "fragment_container" with the ID of the container in your layout file
-                .addToBackStack(null)
-                .commit()
-        }
-
-        // Fetch activity names from Firestore and update the adapter
-        fetchActivityNames(adapter)
-
-        return view
-    }
-    private fun fetchActivityNames(adapter: ArrayAdapter<String>) {
-        val firestore = FirebaseFirestore.getInstance()
+        val activityAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1)
+        listView.adapter = activityAdapter
 
         for (activityId in activityList) {
-            firestore.collection("activity").document(activityId).get()
-                .addOnSuccessListener { documentSnapshot ->
-                    val activityName = documentSnapshot.getString("activityName")
-                    activityName?.let { name ->
-                        adapter.add(name)
-                        adapter.notifyDataSetChanged()
-                    }
+            val query = db.collection("activity").whereEqualTo("activityID", activityId)
+            query.get().addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    val activityName = document.getString("activityName")
+                    activityAdapter.add(activityName)
                 }
-                .addOnFailureListener { exception ->
-                    // 打印获取活动名称失败的错误信息
-                    Log.e("YourFragment", "Failed to fetch activity names", exception)
-                }
+            }.addOnFailureListener { exception ->
+                Log.d(TAG, "Error querying activity documents: ", exception)
+            }
         }
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedActivityId = activityList[position]
+            val query = db.collection("activity").whereEqualTo("activityID", selectedActivityId)
+            query.get().addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    val questionList = document.get("questionList") as ArrayList<String>
+                    val fragment = ExamInterface()
+                    val args = Bundle()
+                    args.putStringArrayList("questionList", questionList)
+                    fragment.arguments = args
+                    // 在此处进行Fragment跳转
+
+                    val fragmentManager = requireActivity().supportFragmentManager
+                    fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }.addOnFailureListener { exception ->
+                Log.d(TAG, "Error querying selected activity document: ", exception)
+            }
+        }
+        return view
+
     }
 
-    private fun getQuestionListFromFirestore(activityId: String): ArrayList<String> {
-        val firestore = FirebaseFirestore.getInstance()
-        val questionList: ArrayList<String> = ArrayList()
-
-        firestore.collection("activity").document(activityId).get()
-            .addOnSuccessListener { documentSnapshot ->
-                val questions = documentSnapshot.get("questionList") as? ArrayList<String>
-                questions?.let { questionList.addAll(it) }
-            }
-            .addOnFailureListener { exception ->
-                // 打印获取问题列表失败的错误信息
-                Log.e("YourFragment", "Failed to fetch question list", exception)
-            }
-
-        return questionList
-    }
 
     companion object {
         /**
