@@ -152,7 +152,7 @@ class LoginFragment : Fragment() {
             }
 
         }
-        
+
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
 
