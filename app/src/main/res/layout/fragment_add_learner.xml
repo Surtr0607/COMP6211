@@ -18,7 +18,8 @@
     <SearchView
         android:id="@+id/search_Learner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:queryHint="Search email..."/>
 
     <ListView
         android:id="@+id/student_List"
