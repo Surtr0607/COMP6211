@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.exam
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +64,7 @@ class ExamInterface : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            questionList = it.getStringArray("questionList")?.toList() ?: emptyList()
+            questionList = it.getStringArrayList("questionList") ?: emptyList()
             loadQuestion()
         }
         view.findViewById<Button>(R.id.ExamInterfacePreviousButton).setOnClickListener {
@@ -85,21 +86,30 @@ class ExamInterface : Fragment() {
 
     private fun loadQuestion() {
         val questionId = questionList[currentQuestionIndex]
-        firestore.collection("questions").document(questionId).get()
-            .addOnSuccessListener { documentSnapshot ->
-                currentQuestionDocument = documentSnapshot
-                val questionText = documentSnapshot.getString("question")
-                questionTextView.text = questionText
-                optionACheckBox.text = documentSnapshot.getString("optionA")
-                optionBCheckBox.text = documentSnapshot.getString("optionB")
-                optionCCheckBox.text = documentSnapshot.getString("optionC")
-                optionDCheckBox.text = documentSnapshot.getString("optionD")
-                optionACheckBox.isChecked = false
-                optionBCheckBox.isChecked = false
-                optionCCheckBox.isChecked = false
-                optionDCheckBox.isChecked = false
+        firestore.collection("questions").whereEqualTo("questionID", questionId).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val documentSnapshot = querySnapshot.documents[0]
+                    currentQuestionDocument = documentSnapshot
+                    val questionText = documentSnapshot.getString("questionText")
+                    questionTextView.text = questionText
+                    optionACheckBox.text = documentSnapshot.getString("optionA")
+                    optionBCheckBox.text = documentSnapshot.getString("optionB")
+                    optionCCheckBox.text = documentSnapshot.getString("optionC")
+                    optionDCheckBox.text = documentSnapshot.getString("optionD")
+                    optionACheckBox.isChecked = false
+                    optionBCheckBox.isChecked = false
+                    optionCCheckBox.isChecked = false
+                    optionDCheckBox.isChecked = false
+                } else {
+                    Log.d("LoadQuestion", "Document is null or doesn't exist")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("LoadQuestion", "Error getting question document", exception)
             }
     }
+
 
     private fun finishQuiz() {
         val userAnswers = listOf(
@@ -115,7 +125,7 @@ class ExamInterface : Fragment() {
         }
         val bundle = Bundle().apply {
             putString("questionId", currentQuestionDocument.id)
-            putString("questionText", currentQuestionDocument.getString("question"))
+            putString("questionText", currentQuestionDocument.getString("questionText"))
             putBooleanArray("userAnswers", userAnswers.toBooleanArray())
             putBooleanArray("isCorrectList", isCorrectList.toBooleanArray())
         }

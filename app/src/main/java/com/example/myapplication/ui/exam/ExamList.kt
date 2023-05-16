@@ -71,13 +71,11 @@ class ExamList : Fragment() {
             val query = db.collection("activity").whereEqualTo("activityID", selectedActivityId)
             query.get().addOnSuccessListener { querySnapshot ->
                 for (document in querySnapshot.documents) {
-                    val questionList = document.get("questionList") as ArrayList<String>
+                    val questionList = document.get("questionList") as List<String>
                     val fragment = ExamInterface()
                     val args = Bundle()
-                    args.putStringArrayList("questionList", questionList)
+                    args.putStringArrayList("questionList", ArrayList(questionList))
                     fragment.arguments = args
-                    // 在此处进行Fragment跳转
-
                     val fragmentManager = requireActivity().supportFragmentManager
                     fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment)
@@ -88,6 +86,7 @@ class ExamList : Fragment() {
                 Log.d(TAG, "Error querying selected activity document: ", exception)
             }
         }
+
         return view
 
     }

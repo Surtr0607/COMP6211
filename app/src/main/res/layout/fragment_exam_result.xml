@@ -10,7 +10,8 @@
         android:id="@+id/ExamResultText"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
     <ListView
         android:id="@+id/ExamResultList"
