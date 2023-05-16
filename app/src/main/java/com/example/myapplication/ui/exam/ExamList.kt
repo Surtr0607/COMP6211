@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -87,8 +88,19 @@ class ExamList : Fragment() {
             }
         }
 
+        view.findViewById<Button>(R.id.ExamAddButton).setOnClickListener {
+            addExam()
+        }
         return view
 
+    }
+    private fun addExam(){
+        val fragment = CreateExam()
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 
