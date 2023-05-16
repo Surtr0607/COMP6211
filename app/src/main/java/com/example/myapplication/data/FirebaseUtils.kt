@@ -30,7 +30,7 @@ class FirebaseUtils{
         return fireStoreDatabase.collection(collectionName).whereEqualTo(field, value).get().getResult()
     }
 
-    //Add a entity into the database collection
+    //Add an entity into the database collection
     fun add(collectionName: String, hashMap: HashMap<String, Any>){
         fireStoreDatabase.collection(collectionName)
             .add(hashMap)
