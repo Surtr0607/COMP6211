@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.example.myapplication.R
@@ -31,11 +32,7 @@ class MyCourse : Fragment() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private lateinit var adapter: ArrayAdapter<String>
 
-    private val db = FirebaseFirestore.getInstance()
-    private val currentUser = FirebaseAuth.getInstance().currentUser
-    val listView = view?.findViewById<ListView>(R.id.MycourseList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,64 +46,75 @@ class MyCourse : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_my_course, container, false)
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // 获取当前登录用户的 UID
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-        // 获取列表视图
+        val view = inflater.inflate(R.layout.fragment_my_course, container, false)
         val listView = view.findViewById<ListView>(R.id.MycourseList)
 
-        // 创建一个空的列表项数组和 courseID 数组
-        val listItems = arrayListOf<String>()
-        val courseIds = arrayListOf<String>()
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
-        // 如果 UID 不为空，则连接 Firestore 并获取当前用户的 course 字段
-        if (uid != null) {
-            db.collection("users").document(uid).get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        // 获取用户的 course 字段的值
-                        val courseArray = document.get("course") as ArrayList<String>
-                        // 遍历 course 数组并在 Firestore 中查找匹配的数据
-                        for (courseId in courseArray) {
-                            db.collection("course").whereEqualTo("courseID", courseId)
-                                .get()
-                                .addOnSuccessListener { querySnapshot ->
-                                    if (!querySnapshot.isEmpty) {
-                                        // 获取匹配到的数据的 courseName 和 courseID 字段的值
-                                        val courseName = querySnapshot.documents[0].get("courseName") as String
-                                        val courseId = querySnapshot.documents[0].get("courseID") as String
-                                        // 将 courseName 和 courseId 添加到列表项数组和 courseId 数组中
-                                        listItems.add(courseName)
-                                        courseIds.add(courseId)
-                                        // 更新列表视图
-                                        listView.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listItems)
-                                    }
-                                }
-                        }
+        val currentUser = auth.currentUser
+        val userId = currentUser?.uid
+
+        if (userId != null) {
+            firestore.collection("users")
+                .document(userId)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val courseArray = documentSnapshot.get("course") as? ArrayList<*>
+                    if (courseArray != null) {
+                        fetchCourses(courseArray, listView)
                     }
                 }
         }
 
-        // 设置列表视图的点击事件
-        listView.setOnItemClickListener { parent, view, position, id ->
-            // 创建一个 Bundle 对象来传递所选列表项的 courseID 字段的值
-            val bundle = Bundle()
-            bundle.putString("courseId", courseIds[position])
-            // 创建一个新的 Fragment 实例并传递 Bundle 对象
-            val fragment = ExamList()
-            fragment.arguments = bundle
-            // 替换当前 Fragment
-            val fragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
-        }
+        return view
     }
+
+    private fun fetchCourses(courseArray: ArrayList<*>, listView: ListView) {
+        val courseIds = courseArray.filterIsInstance<String>()
+
+        firestore.collection("course")
+            .whereIn("courseID", courseIds)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val courseNames = ArrayList<String>()
+                val activityLists = ArrayList<ArrayList<*>>()
+
+                for (document in querySnapshot) {
+                    val courseName = document.getString("courseName")
+                    val activityList = document.get("activityList") as? ArrayList<*>
+
+                    if (courseName != null && activityList != null) {
+                        courseNames.add(courseName)
+                        activityLists.add(activityList)
+                    }
+                }
+
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    courseNames
+                )
+
+                listView.adapter = adapter
+
+                listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                    val activityList = activityLists[position]
+
+                    val fragment = ExamList()
+                    val bundle = Bundle()
+                    bundle.putSerializable("activityList", activityList)
+                    fragment.arguments = bundle
+
+                    //fragmentManager?.beginTransaction()?.replace(R.id.fragment_container, fragment)?.commit()
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragment) // Replace "fragment_container" with the ID of the container in your layout file
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

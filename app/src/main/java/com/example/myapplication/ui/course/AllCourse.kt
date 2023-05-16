@@ -127,6 +127,8 @@ class AllCourse : Fragment() {
                     }
                     .addOnFailureListener { exception ->
                         Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
+
+                        print(selectedCourses)
                     }
             } else {
                 Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
