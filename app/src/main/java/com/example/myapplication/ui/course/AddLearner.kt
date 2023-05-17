@@ -104,8 +104,8 @@ class AddLearner : Fragment() {
                         .get()
                         .addOnSuccessListener {
                             for (person in it){
-//                                val courselist:Array<String> = person.data.get("course") as Array<String>
-                                val courselist:Array<String> = arrayOf("1","2","3","4")
+                                val courselist:Array<String> = person.data.get("course") as Array<String>
+//                                val courselist:Array<String> = arrayOf("1","2","3","4")
                                 val coursearray = courselist.toMutableList()
                                 for(item in selectedItems){
                                     if(person.data.get("email")==item){
