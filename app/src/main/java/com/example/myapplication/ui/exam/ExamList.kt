@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import com.example.myapplication.R
+import com.example.myapplication.ui.course.AddLearner
 import com.example.myapplication.ui.statistics.StatisticsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
@@ -53,6 +54,9 @@ class ExamList : Fragment() {
 
         val activityAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1)
         listView.adapter = activityAdapter
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
+            replaceFragment(AddLearner())
+        }
 
 
         view.findViewById<Button>(R.id.button_result).setOnClickListener {

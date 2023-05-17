@@ -24,8 +24,8 @@
         <LinearLayout
             android:id="@+id/check_box_layout"
             android:layout_width="match_parent"
-            android:layout_height="587dp"
-            android:orientation="vertical"/>
+            android:layout_height="543dp"
+            android:orientation="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"

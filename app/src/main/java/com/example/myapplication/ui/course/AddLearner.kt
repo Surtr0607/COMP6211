@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.data.FirebaseUtils
+import com.google.firebase.firestore.FieldValue
 
 
 class AddLearner : Fragment() {
@@ -53,7 +54,7 @@ class AddLearner : Fragment() {
             .addOnSuccessListener {
 
                 for (person in it){
-                    if(person.data.get("identity")=="student"){
+                    if(person.data.get("identity")=="Student"){
                         val temp=person.data.get("email")
                         val tempstring:String=temp.toString()
                         emails.add(tempstring)
@@ -79,34 +80,32 @@ class AddLearner : Fragment() {
 
                 button.setOnClickListener {
 
-                    FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj").update("student", selectedItems)
+                    for(item in selectedItems){FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj")
+                        .update("student", FieldValue.arrayUnion(item))
                         .addOnSuccessListener {
                             Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener { exception ->
                             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                        }
+                        }}
 
                     FirebaseUtils().fireStoreDatabase.collection("users")
                         .get()
                         .addOnSuccessListener {
                             for (person in it){
-//                                val courselist:Array<String> = person.data.get("course") as Array<String>
-                                val courselist:Array<String> = arrayOf("1","2","3")
-                                val coursearray = courselist.toMutableList()
+
                                 for(item in selectedItems){
                                     if(person.data.get("email")==item){
-                                    coursearray.add("5")
 
-                                    FirebaseUtils().fireStoreDatabase.collection("users").document(person.id).update("course", coursearray)
+
+                                    FirebaseUtils().fireStoreDatabase.collection("users").document(person.id).update("course", FieldValue.arrayUnion("5"))
                                         .addOnSuccessListener {
-                                            replaceFragment(MyCourse())
+
                                         }
                                         .addOnFailureListener {exception ->
                                             Log.w(TAG, "Error adding courelist $exception")
                                         }}
                                 }
-
 
                             }
 
@@ -114,6 +113,7 @@ class AddLearner : Fragment() {
                         .addOnFailureListener {exception ->
                             Log.w(TAG, "Error getting courselist $exception")
                         }
+//                    replaceFragment(MyCourse())
                 }
 
             }
