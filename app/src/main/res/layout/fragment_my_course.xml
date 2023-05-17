@@ -25,12 +25,12 @@
 
     </ListView>
 
-    <Button
-        android:id="@+id/to_add_learner"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:text="Add learner" />
+<!--    <Button-->
+<!--        android:id="@+id/to_add_learner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:text="Add learner" />-->
 
     <Button
         android:id="@+id/button5"

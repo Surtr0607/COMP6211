@@ -30,7 +30,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     fun login(username: String, password: String, role: String) {
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(username, password)
-        Log.d("test role", role)
 
         auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener() { task ->
@@ -52,10 +51,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                                 val user = auth.currentUser
                                 
                                 //add user into the firestore
-
                                 // create a dummy data in activity collection
                                 val hashMap = hashMapOf<String, Any>(
-                                    "username" to username,
+                                    "email" to username,
                                     "identity" to role
                                 )
 

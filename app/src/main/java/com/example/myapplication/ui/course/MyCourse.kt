@@ -50,7 +50,7 @@ class MyCourse : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_my_course, container, false)
         val listView = view.findViewById<ListView>(R.id.MycourseList)
-        val button = view.findViewById<Button>(R.id.to_add_learner)
+//        val button = view.findViewById<Button>(R.id.to_add_learner)
 
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -58,9 +58,6 @@ class MyCourse : Fragment() {
         val currentUser = auth.currentUser
         val userId = currentUser?.uid
 
-        requireActivity().findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
-            replaceFragment(CreateNewCourse())
-        }
         if (userId != null) {
             firestore.collection("users")
                 .document(userId)
@@ -72,9 +69,9 @@ class MyCourse : Fragment() {
                     }
                 }
         }
-        button.setOnClickListener {
-            replaceFragment(AddLearner())
-        }
+//        button.setOnClickListener {
+//            replaceFragment(AddLearner())
+//        }
 
         return view
     }
@@ -146,7 +143,7 @@ class MyCourse : Fragment() {
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.commit()
+        transaction.add(R.id.fragment_container, fragment).addToBackStack(null).commit()
+
     }
 }

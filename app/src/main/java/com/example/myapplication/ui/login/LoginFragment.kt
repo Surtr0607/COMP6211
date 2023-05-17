@@ -67,7 +67,6 @@ class LoginFragment : Fragment() {
         val loadingProgressBar = binding.loading
 
 
-
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
                 if (loginFormState == null) {
@@ -128,7 +127,7 @@ class LoginFragment : Fragment() {
             loginViewModel.login(
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString(),
-                roleEditText.checkedRadioButtonId.toString()
+                binding.root.findViewById<RadioButton>(binding.role.checkedRadioButtonId).text.toString()
             )
         }
     }
