@@ -121,23 +121,32 @@ class AllCourse : Fragment() {
             val currentUser = auth.currentUser
             val email = currentUser?.email
             if (currentUser != null) {
-                val userRef = firestore.collection("users").whereEqualTo("email",email).get()
-                    .addOnSuccessListener { it ->
-                        for (item in it){
-                            firestore.collection("users").document(item.id).update("course", selectedCourses)
-                                .addOnSuccessListener {
-                                    Toast.makeText(context, "Successfully added courses", Toast.LENGTH_SHORT).show()
+                firestore.collection("users").whereEqualTo("email", email).get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (documentSnapshot in querySnapshot.documents) {
+                            val userId = documentSnapshot.id
+                            val userRef = firestore.collection("users").document(userId)
+                            userRef.get()
+                                .addOnSuccessListener { documentSnapshot ->
+                                    val currentCourses = documentSnapshot.get("course") as? List<String> ?: emptyList()
+                                    val updatedCourses = currentCourses.union(selectedCourses)
+                                    userRef.update("course", updatedCourses.toList())
+                                        .addOnSuccessListener {
+                                            Toast.makeText(context, "Successfully added courses", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
+                                            print(selectedCourses)
+                                        }
                                 }
                                 .addOnFailureListener { exception ->
-                                    Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
-
-                                    print(selectedCourses)
+                                    // Handle the failure case
                                 }
                         }
-
                     }
-
-
+                    .addOnFailureListener { exception ->
+                        // Handle the failure case
+                    }
             } else {
                 Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
             }
