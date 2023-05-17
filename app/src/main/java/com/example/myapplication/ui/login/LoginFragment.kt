@@ -149,7 +149,6 @@ class LoginFragment : Fragment() {
                 val intent = Intent(this.requireActivity(), LearnerActivity::class.java)
                 requireActivity().startActivityFromFragment(this, intent, 1)
             }
-
         }
 
         val appContext = context?.applicationContext ?: return

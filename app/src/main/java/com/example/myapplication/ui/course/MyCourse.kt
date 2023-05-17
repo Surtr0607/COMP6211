@@ -56,16 +56,18 @@ class MyCourse : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         val currentUser = auth.currentUser
-        val userId = currentUser?.uid
+        val userId = currentUser?.email
+
 
         if (userId != null) {
-            firestore.collection("users")
-                .document(userId)
+            firestore.collection("users").whereEqualTo("email", userId)
                 .get()
-                .addOnSuccessListener { documentSnapshot ->
-                    val courseArray = documentSnapshot.get("course") as? ArrayList<*>
-                    if (courseArray != null) {
-                        fetchCourses(courseArray, listView)
+                .addOnSuccessListener { it ->
+                    for (documentSnapshot in it) {
+                        val courseArray = documentSnapshot.get("course") as? ArrayList<*>
+                        if (courseArray != null) {
+                            fetchCourses(courseArray, listView)
+                        }
                     }
                 }
         }
