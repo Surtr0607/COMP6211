@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.exam
 
-import android.app.Activity
 import android.os.Bundle
 import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
@@ -8,11 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -96,7 +93,7 @@ class ExamList : Fragment() {
     }
 
     private fun addExam(){
-        val fragment = CreateExam()
+        val fragment = CreateQuestion()
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)

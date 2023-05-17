@@ -43,6 +43,7 @@ class CreateNewCourse : Fragment() {
             val description = descEditText.text.toString()
             val hashMap = hashMapOf<String, Any>(
                 "courseName" to name,
+                "courseID" to "5",
                 "description" to description)
 
             FirebaseUtils().fireStoreDatabase.collection("course")
@@ -54,6 +55,7 @@ class CreateNewCourse : Fragment() {
                     Log.w(TAG, "Error adding document $exception")
                 }
             Toast.makeText(activity, "Course created!", Toast.LENGTH_SHORT).show()
+            replaceFragment(AllCourse())
         }
         return root
     }
@@ -75,6 +77,11 @@ class CreateNewCourse : Fragment() {
 
                 }
             }
+    }
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.commit()
     }
 }
 //

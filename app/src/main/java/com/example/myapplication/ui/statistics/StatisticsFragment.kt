@@ -1,13 +1,21 @@
 package com.example.myapplication.ui.statistics
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ListView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.data.FirebaseUtils
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +32,8 @@ class StatisticsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -32,13 +42,36 @@ class StatisticsFragment : Fragment() {
         }
     }
 
+    private lateinit var results: ArrayList<String>
+    private val TAG = "FIRESTORE"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_statistics, container, false)
-        val image = root.findViewById<ImageView>(R.id.imageView)
-        return inflater.inflate(R.layout.fragment_statistics, container, false)
+        val list = root.findViewById<ListView>(R.id.result_List)
+//        val button = root.findViewById<ListView>(R.id.button_result)
+        results = ArrayList(listOf("email1", "email2", "email"))
+
+        FirebaseUtils().fireStoreDatabase.collection("result")
+            .get()
+            .addOnSuccessListener {
+                for (person in it){
+                    val temp1=person.data.get("student").toString()
+                    val temp2=person.data.get("result").toString()
+                    val combinedString = "Student email: $temp1  Grade: $temp2"
+                    results.add(combinedString)
+                }
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, results)
+                list.adapter = adapter
+            }
+
+            .addOnFailureListener {
+                Log.w(TAG, "Error adding document $it")
+            }
+
+
+        return root
     }
 
     companion object {

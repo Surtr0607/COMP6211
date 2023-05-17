@@ -29,6 +29,13 @@ class AddLearner : Fragment() {
 
     private lateinit var emails: ArrayList<String>
     private val TAG = "FIRESTORE"
+    //    private lateinit var user: User
+    data class User(
+        val course: List<String>,
+        val email: String,
+        val firstname: String,
+        val identity: String,
+        val lastname: String)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +45,7 @@ class AddLearner : Fragment() {
         val list = root.findViewById<ListView>(R.id.student_List)
         val search = root.findViewById<SearchView>(R.id.search_Learner)
         val button = root.findViewById<Button>(R.id.add_learner_button)
-
-
-        emails = ArrayList(listOf("email1", "email2", "email")) //
+        emails = ArrayList(listOf("email1", "email2", "email"))
         fun performSearch(query: String) {
 
         }
@@ -82,7 +87,11 @@ class AddLearner : Fragment() {
                     }
                 }
 
+
+
+
                 button.setOnClickListener {
+
                     FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj").update("student", selectedItems)
                         .addOnSuccessListener {
                             Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
@@ -90,66 +99,44 @@ class AddLearner : Fragment() {
                         .addOnFailureListener { exception ->
                             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
                         }
+
+                    FirebaseUtils().fireStoreDatabase.collection("users")
+                        .get()
+                        .addOnSuccessListener {
+                            for (person in it){
+//                                val courselist:Array<String> = person.data.get("course") as Array<String>
+                                val courselist:Array<String> = arrayOf("1","2","3","4")
+                                val coursearray = courselist.toMutableList()
+                                for(item in selectedItems){
+                                    if(person.data.get("email")==item){
+                                    coursearray.add("5")
+
+                                    FirebaseUtils().fireStoreDatabase.collection("users").document(person.id).update("course", coursearray)
+                                        .addOnSuccessListener {
+                                        }
+                                        .addOnFailureListener {exception ->
+                                            Log.w(TAG, "Error adding courelist $exception")
+                                        }}
+                                }
+
+
+                            }
+
+
+
+
+
+                        }
+                        .addOnFailureListener {exception ->
+                            Log.w(TAG, "Error getting courselist $exception")
+                        }
                 }
 
             }
-
-            // 获取选中的项
-//            fun getSelectedItems(): List<String> {
-//                return selectedItems
-//            }
-
-        emails = ArrayList(listOf("email1", "email2", "email")) // 使用构造函数初始化列表
-        emails.add("crying")
-
-        FirebaseUtils().fireStoreDatabase.collection("users")
-            .get()
-            .addOnSuccessListener {
-                for (person in it){
-                if(person.data.get("identity")=="student"){
-//                  val temp=person.data.get("email")
-                    emails.add(person.data.get("email").toString())
-
-                }
-            }
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, emails)
-            list.adapter = adapter
-
-
-
-
-//                for (person in user){
-//                    if(person.getString("identity")=="student"){
-//                        val aaa=person.getString("email")
-//                        if (aaa != null){
-//                            emails.add(aaa)}
-//                    }
-//                }
-            }
-
             .addOnFailureListener {
                 Log.w(TAG, "Error adding document $it")
             }
 
-
-
-//       val adapter = MultiSelectAdapter(requireContext(), emails)
-//       list.adapter = adapter
-        val selectedItems = ArrayList<String>()
-        selectedItems.add("zhongqi")
-        selectedItems.add("Sarah")
-
-        button.setOnClickListener {
-//            selectedItems.clear()
-//            selectedItems.addAll(adapter.getSelectedItems())
-            FirebaseUtils().fireStoreDatabase.collection("course").document("0Rz8veQKjXTkDTdj6BSj").update("student", selectedItems)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                }
-        }
 
         return root
     }

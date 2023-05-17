@@ -11,14 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
-        android:text="@string/create_exam"
+        android:layout_marginEnd="69dp"
+        android:text="Create a new question"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/textInputLayout6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -27,10 +28,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/question"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#FEFEFE"
-            android:hint="hint" />
+            android:hint="Question text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,15 +41,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/option_d"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="#FEFEFE"
-            android:hint="hint" />
+            android:hint="Option D" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,13 +62,14 @@
         android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/option_a"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="#FEFEFE"
-            android:hint="hint" />
+            android:hint="Option A" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,10 +83,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/option_b"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="#FEFEFE"
-            android:hint="hint" />
+            android:hint="Option B" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,71 +101,59 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/option_c"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="#FEFEFE"
-            android:hint="hint" />
+            android:hint="Option C" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
+        android:id="@+id/finish_exam"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="83dp"
+        android:layout_marginTop="47dp"
         android:text="Confirm"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="70dp"
-        android:text="Next"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/option_d_chosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:text="CheckBox"
+        android:layout_marginEnd="33dp"
+        android:text="Correct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout2" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/option_a_chosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:text="CheckBox"
+        android:layout_marginEnd="33dp"
+        android:text="Correct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/option_b_chosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:text="CheckBox"
+        android:layout_marginEnd="33dp"
+        android:text="Correct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout4" />
 
     <CheckBox
-        android:id="@+id/checkBox6"
+        android:id="@+id/option_c_chosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="17dp"
-        android:text="CheckBox"
+        android:layout_marginEnd="33dp"
+        android:text="Correct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textInputLayout5" />
 

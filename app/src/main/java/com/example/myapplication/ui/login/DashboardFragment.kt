@@ -19,7 +19,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.rotationMatrix
 import androidx.core.graphics.set
 import androidx.fragment.app.Fragment
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
@@ -77,7 +79,12 @@ class DashboardFragment : Fragment() {
 //        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType(mimeType)))
 
 
-
+        val logout = root.findViewById<Button>(R.id.confirmButton)
+        logout.setOnClickListener{
+            Firebase.auth.signOut()
+            val intent = Intent(this.requireActivity(), MainActivity::class.java)
+            requireActivity().startActivityFromFragment(this, intent, 1)
+        }
 
 
         Log.d("temp", temp)

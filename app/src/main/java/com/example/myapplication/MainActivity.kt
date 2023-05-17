@@ -9,9 +9,8 @@ import com.example.myapplication.data.FirebaseUtils
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.ui.course.AddLearner
 import com.example.myapplication.ui.course.AllCourse
-import com.example.myapplication.ui.course.CreateNewCourse
-import com.example.myapplication.ui.course.MyCourse
-import com.example.myapplication.ui.exam.CreateExam
+import com.example.myapplication.ui.exam.CreateNewExam
+import com.example.myapplication.ui.exam.CreateQuestion
 import com.example.myapplication.ui.login.LoginFragment
 import com.example.myapplication.ui.login.RemindFragment
 import com.example.myapplication.ui.statistics.AddLearnerFragment
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.Allcourses -> {
-                    replaceFragment(CreateExam())
+                    replaceFragment(AllCourse())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.MyCourse -> {
