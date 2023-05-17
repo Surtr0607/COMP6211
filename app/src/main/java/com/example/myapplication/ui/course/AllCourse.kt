@@ -119,17 +119,25 @@ class AllCourse : Fragment() {
 
             // 添加课程ID到当前用户的course字段
             val currentUser = auth.currentUser
+            val email = currentUser?.email
             if (currentUser != null) {
-                val userRef = firestore.collection("users").document(currentUser.uid)
-                userRef.update("course", selectedCourses)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "Successfully added courses", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
+                val userRef = firestore.collection("users").whereEqualTo("email",email).get()
+                    .addOnSuccessListener { it ->
+                        for (item in it){
+                            firestore.collection("users").document(item.id).update("course", selectedCourses)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Successfully added courses", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener { exception ->
+                                    Toast.makeText(context, "Failed to add a course", Toast.LENGTH_SHORT).show()
 
-                        print(selectedCourses)
+                                    print(selectedCourses)
+                                }
+                        }
+
                     }
+
+
             } else {
                 Toast.makeText(context, "Please login first", Toast.LENGTH_SHORT).show()
             }
