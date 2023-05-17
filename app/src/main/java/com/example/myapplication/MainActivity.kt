@@ -38,13 +38,12 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.root.findViewById(R.id.nav_view)
 
         // Initialize the start page after welcome page
-        replaceFragment(AllCourse())
+        replaceFragment(LoginFragment())
 
         // Set the click event of floating button fab
         val btn: FloatingActionButton = binding.fab
         btn.setOnClickListener{
-            Toast.makeText(applicationContext, "Click!", Toast.LENGTH_SHORT).show()
-            replaceFragment(AddLearnerFragment())
+            Toast.makeText(applicationContext, "Please log in firstly", Toast.LENGTH_SHORT).show()
         }
 
         // Set the function of bottom navigation bar
