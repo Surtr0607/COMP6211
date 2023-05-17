@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import com.example.myapplication.R
 import com.example.myapplication.ui.exam.ExamList
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -48,6 +50,7 @@ class MyCourse : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_my_course, container, false)
         val listView = view.findViewById<ListView>(R.id.MycourseList)
+        val button = view.findViewById<Button>(R.id.to_add_learner)
 
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -55,6 +58,9 @@ class MyCourse : Fragment() {
         val currentUser = auth.currentUser
         val userId = currentUser?.uid
 
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
+            replaceFragment(CreateNewCourse())
+        }
         if (userId != null) {
             firestore.collection("users")
                 .document(userId)
@@ -65,6 +71,9 @@ class MyCourse : Fragment() {
                         fetchCourses(courseArray, listView)
                     }
                 }
+        }
+        button.setOnClickListener {
+            replaceFragment(AddLearner())
         }
 
         return view
@@ -133,5 +142,11 @@ class MyCourse : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.commit()
     }
 }

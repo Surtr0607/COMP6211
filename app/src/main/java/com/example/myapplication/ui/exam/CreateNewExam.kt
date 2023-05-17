@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.data.FirebaseUtils
 import com.example.myapplication.ui.course.AllCourse
+import com.example.myapplication.ui.course.MyCourse
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -43,6 +45,10 @@ class CreateNewExam : Fragment() {
         val button = root.findViewById<Button>(R.id.create_exam_button)
         val examname = root.findViewById<TextInputEditText>(R.id.exam_name)
         texts = ArrayList(listOf("email1", "email2", "email"))
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
+            replaceFragment(CreateQuestion())
+        }
+
         FirebaseUtils().fireStoreDatabase.collection("questions")
             .get()
             .addOnSuccessListener {
@@ -69,6 +75,7 @@ class CreateNewExam : Fragment() {
 
 
                 button.setOnClickListener {
+
                     FirebaseUtils().fireStoreDatabase.collection("questions")
                         .get()
                         .addOnSuccessListener {
@@ -96,13 +103,33 @@ class CreateNewExam : Fragment() {
                                 .addOnFailureListener { exception ->
                                     Log.w(TAG, "Error adding document $exception")
                                 }
+                            FirebaseUtils().fireStoreDatabase.collection("course")
+                                .get()
+                                .addOnSuccessListener {
+                                    for (person in it){
+                                        val examlist:Array<String> = arrayOf("1","2")
+//                                        val examlist:Array<String> = person.data.get("activityList") as Array<String>
+                                        val examarray = examlist.toMutableList()
+                                        examarray.add("5")
+                                        FirebaseUtils().fireStoreDatabase.collection("course").document(person.id).update("activityList", examarray)
+                                            .addOnSuccessListener {
+                                                    }
+                                            .addOnFailureListener {exception ->
+                                                        Log.w(TAG, "Error adding courelist $exception")
+                                                    }
+
+                                    }
+                                }
+                                .addOnFailureListener {exception ->
+                                    Log.w(TAG, "Error getting courselist $exception")
+                                }
                             Toast.makeText(activity, "Exam created!", Toast.LENGTH_SHORT).show()
-//                    replaceFragment(ExamList())
+
                         }
                         .addOnFailureListener{
                             Log.w(TAG, "Error adding document $it")
                         }
-
+                    replaceFragment(MyCourse())
                 }
             }
             .addOnFailureListener {

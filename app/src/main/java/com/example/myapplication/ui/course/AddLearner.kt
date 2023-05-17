@@ -43,23 +43,10 @@ class AddLearner : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_add_learner, container, false)
         val list = root.findViewById<ListView>(R.id.student_List)
-        val search = root.findViewById<SearchView>(R.id.search_Learner)
         val button = root.findViewById<Button>(R.id.add_learner_button)
         emails = ArrayList(listOf("email1", "email2", "email"))
-        fun performSearch(query: String) {
 
-        }
-        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                // 当用户提交搜索时调用
-                performSearch(query)
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
 
         FirebaseUtils().fireStoreDatabase.collection("users")
             .get()
@@ -104,8 +91,8 @@ class AddLearner : Fragment() {
                         .get()
                         .addOnSuccessListener {
                             for (person in it){
-                                val courselist:Array<String> = person.data.get("course") as Array<String>
-//                                val courselist:Array<String> = arrayOf("1","2","3","4")
+//                                val courselist:Array<String> = person.data.get("course") as Array<String>
+                                val courselist:Array<String> = arrayOf("1","2","3")
                                 val coursearray = courselist.toMutableList()
                                 for(item in selectedItems){
                                     if(person.data.get("email")==item){
@@ -113,6 +100,7 @@ class AddLearner : Fragment() {
 
                                     FirebaseUtils().fireStoreDatabase.collection("users").document(person.id).update("course", coursearray)
                                         .addOnSuccessListener {
+                                            replaceFragment(MyCourse())
                                         }
                                         .addOnFailureListener {exception ->
                                             Log.w(TAG, "Error adding courelist $exception")
@@ -121,10 +109,6 @@ class AddLearner : Fragment() {
 
 
                             }
-
-
-
-
 
                         }
                         .addOnFailureListener {exception ->
@@ -158,5 +142,10 @@ class AddLearner : Fragment() {
 
                 }
             }
+    }
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.commit()
     }
 }

@@ -55,7 +55,7 @@ class CreateNewCourse : Fragment() {
                     Log.w(TAG, "Error adding document $exception")
                 }
             Toast.makeText(activity, "Course created!", Toast.LENGTH_SHORT).show()
-            replaceFragment(AllCourse())
+            replaceFragment(MyCourse())
         }
         return root
     }

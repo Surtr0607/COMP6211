@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import com.example.myapplication.R
+import com.example.myapplication.ui.statistics.StatisticsFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,6 +54,10 @@ class ExamList : Fragment() {
         val activityAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1)
         listView.adapter = activityAdapter
 
+
+        view.findViewById<Button>(R.id.button_result).setOnClickListener {
+            replaceFragment(StatisticsFragment())
+        }
         for (activityId in activityList) {
             val query = db.collection("activity").whereEqualTo("activityID", activityId)
             query.get().addOnSuccessListener { querySnapshot ->
@@ -93,7 +99,7 @@ class ExamList : Fragment() {
     }
 
     private fun addExam(){
-        val fragment = CreateQuestion()
+        val fragment = CreateNewExam()
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
@@ -120,5 +126,11 @@ class ExamList : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.commit()
     }
 }
