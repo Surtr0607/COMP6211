@@ -45,7 +45,7 @@ class AddLearner : Fragment() {
         val root = inflater.inflate(R.layout.fragment_add_learner, container, false)
         val list = root.findViewById<ListView>(R.id.student_List)
         val button = root.findViewById<Button>(R.id.add_learner_button)
-        emails = ArrayList(listOf("email1", "email2", "email"))
+        emails = ArrayList(listOf("qz448@soton.uk"))
 
 
 

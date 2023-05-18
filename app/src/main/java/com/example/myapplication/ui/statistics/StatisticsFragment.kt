@@ -51,7 +51,7 @@ class StatisticsFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_statistics, container, false)
         val list = root.findViewById<ListView>(R.id.result_List)
 //        val button = root.findViewById<ListView>(R.id.button_result)
-        results = ArrayList(listOf("email1", "email2", "email"))
+        results = ArrayList(listOf(""))
 
         FirebaseUtils().fireStoreDatabase.collection("result")
             .get()
@@ -59,7 +59,9 @@ class StatisticsFragment : Fragment() {
                 for (person in it){
                     val temp1=person.data.get("student").toString()
                     val temp2=person.data.get("result").toString()
-                    val combinedString = "Student email: $temp1  Grade: $temp2"
+                    val temp3=person.data.get("course").toString()
+
+                    val combinedString = "CourseID:$temp3  $temp1  Grade: $temp2"
                     results.add(combinedString)
                 }
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, results)

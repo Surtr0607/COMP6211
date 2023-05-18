@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.data.FirebaseUtils
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.firestore.FieldValue
 
 /**
  * A simple [Fragment] subclass.
@@ -41,7 +42,9 @@ class CreateNewCourse : Fragment() {
         button.setOnClickListener {
             val name = nameEditText.text.toString()
             val description = descEditText.text.toString()
+            val activity6= ArrayList<String>()
             val hashMap = hashMapOf<String, Any>(
+                "activityList" to activity6,
                 "courseName" to name,
                 "courseID" to "5",
                 "description" to description)
@@ -55,6 +58,14 @@ class CreateNewCourse : Fragment() {
                     Log.w(TAG, "Error adding document $exception")
                 }
             Toast.makeText(activity, "Course created!", Toast.LENGTH_SHORT).show()
+            FirebaseUtils().fireStoreDatabase.collection("users").document("HVr0vQv0rHodsFUdYwN1")
+                .update("course", FieldValue.arrayUnion("5"))
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Successful", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                }
             replaceFragment(MyCourse())
         }
         return root

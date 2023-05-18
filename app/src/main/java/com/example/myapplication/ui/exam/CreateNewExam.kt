@@ -17,6 +17,7 @@ import com.example.myapplication.ui.course.AllCourse
 import com.example.myapplication.ui.course.MyCourse
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.firestore.FieldValue
 
 /**
  * A simple [Fragment] subclass.
@@ -44,7 +45,7 @@ class CreateNewExam : Fragment() {
         val list = root.findViewById<ListView>(R.id.question_List)
         val button = root.findViewById<Button>(R.id.create_exam_button)
         val examname = root.findViewById<TextInputEditText>(R.id.exam_name)
-        texts = ArrayList(listOf("email1", "email2", "email"))
+        texts = ArrayList(listOf("who is the president of the USA"))
         requireActivity().findViewById<FloatingActionButton>(R.id.fab).setOnClickListener{
             replaceFragment(CreateQuestion())
         }
@@ -107,16 +108,17 @@ class CreateNewExam : Fragment() {
                                 .get()
                                 .addOnSuccessListener {
                                     for (person in it){
-                                        val examlist:Array<String> = arrayOf("1","2")
+                                        if(person.data.get("courseID")=="5"){
+//                                        val examlist:Array<String> = arrayOf("1","2")
 //                                        val examlist:Array<String> = person.data.get("activityList") as Array<String>
-                                        val examarray = examlist.toMutableList()
-                                        examarray.add("5")
-                                        FirebaseUtils().fireStoreDatabase.collection("course").document(person.id).update("activityList", examarray)
+//                                        val examarray = examlist.toMutableList()
+//                                        examarray.add("5")
+                                        FirebaseUtils().fireStoreDatabase.collection("course").document(person.id).update("activityList", FieldValue.arrayUnion("5"))
                                             .addOnSuccessListener {
                                                     }
                                             .addOnFailureListener {exception ->
                                                         Log.w(TAG, "Error adding courelist $exception")
-                                                    }
+                                                    }}
 
                                     }
                                 }
